@@ -17,21 +17,17 @@
 #include "funcoes.h"
 #define TAM_MATX 6
 
-void validaPos()
+void validaPos(int **mtz)
 {
-	FILE *arq;
-	arq = fopen("matriztemp.txt", "r");
 	char ver;
-
+	
 	for (i = 0; i < TAM_MATX; i++)
 	{
 		for (j = 0; j < TAM_MATX; j++)
 		{
-			fscanf(arq, "%c", &ver);
-			//if()
+			//
 		}
 	}
-	fclose(arq);
 }
 
 int typeToInt(char type)
@@ -70,40 +66,27 @@ int typeToInt(char type)
 
 void criaMatriz()
 {
-	int i, j;
-	FILE *arq;
-
-	arq = fopen("matriztemp.txt", "r");
-	for (i = 0; i < TAM_MATX; i++)
+	int i;
+	int **mtz; 
+	mtz = malloc (TAM_MATX * sizeof (int *));
+	for(i = 0; i <= TAM_MATX; i++)
 	{
-		for (j = 0; j < TAM_MATX; j++)
-		{
-			fprintf(arq, "0 ");
-		}
-		fprintf(arq, "\n");
+		mtz[i] = malloc (TAM_MATX * sizeof (int));
+		mtz[i] = 0;
 	}
-	fclose(arq);
 }
 
-void attMatriz(int lin, int col, int type)
+void attMatriz(int lin, int col, int type, int **mtz)
 {
-	FILE *arq;
-	int i, j, tipo;
+	int i, j;
 
 	for (i = 0; i < TAM_MATX; i++)
 	{
 		for (j = 0; j < TAM_MATX; j++)
 		{
-			fscanf(arq, "%d", &tipo);
-			if (type == 0)
-			{
-				fprintf(arq, "%d ", type);
-			}else
-			{
-				fprintf(arq, "%d ", tipo);
-			}
+			if(mtz[i][j] == 0)
+				mtz[i][j] = type;
 		}
-		fprintf(arq, "\n");
 	}
 }
 
