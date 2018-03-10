@@ -34,13 +34,37 @@ void validaPos()
 	fclose(arq);
 }
 
-char typeToChar(char type)
+int typeToInt(char type)
 {
 	switch (type)
 	{
-		case '1AM' :
+		case '3Az' :
 			return 1; 
-		break;
+			break;
+		case '2Az' : 
+			return 2;
+			break;
+		case '1Az' :
+			return 3;
+			break;
+		case '2Vm' :
+			return 4;
+			break;
+		case '1Vm' :
+			return 5;
+			break;
+		case '3Am' :
+			return 6;
+			break;
+		case '1Am' :
+			return 7;
+			break;
+		case '2Vd' :
+			return 8;
+			break;
+		case '3Vd' :
+			return 9;
+			break;
 	}
 }
 
@@ -61,23 +85,22 @@ void criaMatriz()
 	fclose(arq);
 }
 
-void attMatriz(int lin, int col, char type)
+void attMatriz(int lin, int col, int type)
 {
 	FILE *arq;
-	int i, j;
-	char tipo;
+	int i, j, tipo;
 
 	for (i = 0; i < TAM_MATX; i++)
 	{
 		for (j = 0; j < TAM_MATX; j++)
 		{
-			fscanf(arq, "%c", &tipo);
-			if (strcmp(type, "0") == 0)
+			fscanf(arq, "%d", &tipo);
+			if (type == 0)
 			{
-				fprintf(arq, "%c ", type);
+				fprintf(arq, "%d ", type);
 			}else
 			{
-				fprintf(arq, "%c ", tipo);
+				fprintf(arq, "%d ", tipo);
 			}
 		}
 		fprintf(arq, "\n");
@@ -87,8 +110,8 @@ void attMatriz(int lin, int col, char type)
 void readFile()
 {
 	FILE *arq;
-	int pos[4], tam, i, j, aux;
-	char c, type[3];
+	int pos[4], tam, i, j, aux, c;
+	char type[3];
 
 	if((arq = fopen("configuracoes.txt", "r")) == NULL) printf("ERRO\n");
 	else
@@ -110,11 +133,11 @@ void readFile()
 				fscanf(arq, "%s", type);
 				
 				/*
-				verificando a orientação da bomba, o tipo e convertendo para char o type recebido
+				verificando a orientação da bomba, o tipo e convertendo para int o type recebido
 				atualizando a matriz a ser verificada
 				*/
 				
-				c = typeToChar(type);
+				c = typeToInt(type);
 				if(pos[0] == pos[2]) //horizontal
 				{
 					aux = pos[1];
