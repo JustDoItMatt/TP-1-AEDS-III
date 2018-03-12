@@ -67,11 +67,11 @@ int typeToInt(char type)
 void criaMatriz()
 {
 	int i;
-	int **mtz; 
-	mtz = malloc (TAM_MATX * sizeof (int *));
+	bomb **mtz; 
+	mtz = malloc (TAM_MATX * sizeof (bomb *));
 	for(i = 0; i <= TAM_MATX; i++)
 	{
-		mtz[i] = malloc (TAM_MATX * sizeof (int));
+		mtz[i] = malloc (TAM_MATX * sizeof (bomb));
 		mtz[i] = 0;
 	}
 }
@@ -93,8 +93,9 @@ void attMatriz(int lin, int col, int type, int **mtz)
 void readFile()
 {
 	FILE *arq;
-	int pos[4], tam, i, j, aux, c;
+	int pos[4], tam, i, j, aux, serie = 0;
 	char type[3];
+	bomb B;
 
 	if((arq = fopen("configuracoes.txt", "r")) == NULL) printf("ERRO\n");
 	else
@@ -120,13 +121,14 @@ void readFile()
 				atualizando a matriz a ser verificada
 				*/
 				
-				c = typeToInt(type);
+				B.type = typeToInt(type);
+				B.nSerie = serie;
 				if(pos[0] == pos[2]) //horizontal
 				{
 					aux = pos[1];
 					while(aux <= pos[3])
 					{
-						attMatriz(pos[0], aux, c);
+						attMatriz(pos[0], aux, B.type);
 						aux++;
 					}
 				}else //vertical
@@ -134,10 +136,11 @@ void readFile()
 					aux = pos[0];
 					while(aux <= pos[2])
 					{
-						attMatriz(aux, pos[1], c);
+						attMatriz(aux, pos[1], B.type);
 						aux++;
 					}
 				}
+				serie++;
 			}
 		}
 	}
