@@ -7,7 +7,7 @@ struct kitBoom{
 typedef struct kitBoom bomb;
 char typeToChar(char );
 void criaMatriz();
-void attMatriz(int , int , char );
+void attMatriz(int , boom , char , boom);
 void readFile();
 
 #endif
