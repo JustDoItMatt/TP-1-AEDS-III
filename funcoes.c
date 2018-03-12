@@ -64,7 +64,7 @@ int typeToInt(char type)
 	}
 }
 
-void criaMatriz()
+bomb *criaMatriz()
 {
 	int i;
 	bomb **mtz; 
@@ -76,7 +76,7 @@ void criaMatriz()
 	}
 }
 
-void attMatriz(int lin, int col, int type, int **mtz)
+void attMatriz(int lin, int col, boom type, int **mtz)
 {
 	int i, j;
 
@@ -85,7 +85,7 @@ void attMatriz(int lin, int col, int type, int **mtz)
 		for (j = 0; j < TAM_MATX; j++)
 		{
 			if(mtz[i][j] == 0)
-				mtz[i][j] = type;
+				mtz[i][j] = B;
 		}
 	}
 }
@@ -94,9 +94,9 @@ void readFile()
 {
 	FILE *arq;
 	int pos[4], tam, i, j, aux, serie = 0;
-	char type[3];
-	bomb B;
-
+	char charType[3];
+	bomb B, *mtz = criaMatriz();
+	
 	if((arq = fopen("configuracoes.txt", "r")) == NULL) printf("ERRO\n");
 	else
 	{
@@ -114,21 +114,21 @@ void readFile()
 				{
 					fscanf(arq, "%d", &pos[i-1]);
 				}
-				fscanf(arq, "%s", type);
+				fscanf(arq, "%s", charType);
 				
 				/*
 				verificando a orientação da bomba, o tipo e convertendo para int o type recebido
 				atualizando a matriz a ser verificada
 				*/
 				
-				B.type = typeToInt(type);
-				B.nSerie = serie;
+				B->type = typeToInt(charType);
+				B->nSerie = serie;
 				if(pos[0] == pos[2]) //horizontal
 				{
 					aux = pos[1];
 					while(aux <= pos[3])
 					{
-						attMatriz(pos[0], aux, B.type);
+						attMatriz(pos[0], aux, B, mtz);
 						aux++;
 					}
 				}else //vertical
@@ -136,7 +136,7 @@ void readFile()
 					aux = pos[0];
 					while(aux <= pos[2])
 					{
-						attMatriz(aux, pos[1], B.type);
+						attMatriz(aux, pos[1], B, mtz);
 						aux++;
 					}
 				}
