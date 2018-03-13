@@ -26,7 +26,7 @@ void validaPos(int **mtz)
 	{
 		for (j = 0; j < TAM_MATX; j++)
 		{
-			//
+			//if(mtz[i][j])
 		}
 	}
 }
@@ -55,17 +55,17 @@ int typeToInt(char *type)
 
 bomb **criaMatriz()
 {
-	int i;
-	bomb **mtz; 
-	mtz = (bomb **) malloc (TAM_MATX * sizeof (bomb *));
-	for(i = 0; i <= TAM_MATX; i++)
+	int i, j;
+	bomb **mtz;
+
+	mtz = (bomb **) malloc (TAM_MATX * sizeof(bomb *));
+	for (i = 0; i < TAM_MATX; i++)
 	{
-		mtz[i] = malloc (TAM_MATX * sizeof (bomb));
-		mtz[i] = NULL;
+		mtz[i] = (bomb *) malloc(TAM_MATX * sizeof(bomb));
 	}
 }
 
-void attMatriz(int lin, int col, bomb type, bomb **mtz)
+void attMatriz(int lin, int col, bomb B, bomb **mtz)
 {
 	int i, j;
 
@@ -73,7 +73,8 @@ void attMatriz(int lin, int col, bomb type, bomb **mtz)
 	{
 		for (j = 0; j < TAM_MATX; j++)
 		{
-			//
+			if((lin == i && col == j) && mtz[i][j].type == 0)
+				mtz[i][j] = B;
 		}
 	}
 }
@@ -130,6 +131,8 @@ void readFile()
 				}
 				serie++;
 			}
+			//testar a validade da configuração
+
 		}
 	}
 	fclose(arq);
