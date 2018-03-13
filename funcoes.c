@@ -39,18 +39,24 @@ int typeToInt(char *type)
 		return 2;
 	if(strcmp(type, "1Az") == 0)
 		return 3;
+	if(strcmp(type, "3Vm") == 0)
+		return 10;
 	if(strcmp(type, "2Vm") == 0)
 		return 4;
 	if(strcmp(type, "1Vm") == 0)
 		return 5;
 	if(strcmp(type, "3Am") == 0)
 		return 6;
+	if(strcmp(type, "2Am") == 0)
+		return 11;
 	if(strcmp(type, "1Am") == 0)
 		return 7;
 	if(strcmp(type, "2Vd") == 0)
 		return 8;
 	if(strcmp(type, "3Vd") == 0)
 		return 9;
+	if(strcmp(type, "1Vd") == 0)
+		return 12;
 }
 
 bomb **criaMatriz()
