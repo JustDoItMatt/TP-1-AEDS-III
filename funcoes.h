@@ -5,9 +5,10 @@ struct kitBoom{
 	int type, nSerie;
 };
 typedef struct kitBoom bomb;
-char typeToChar(char );
-void criaMatriz();
-void attMatriz(int , boom , char , boom);
+void validaPos(int **);
+int typeToInt(char *);
+bomb **criaMatriz();
+void attMatriz(int , int , bomb , bomb **);
 void readFile();
 
 #endif
