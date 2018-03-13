@@ -14,13 +14,14 @@
 */
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "funcoes.h"
 #define TAM_MATX 6
 
 void validaPos(int **mtz)
 {
 	char ver;
-	
+	int i, j;
 	for (i = 0; i < TAM_MATX; i++)
 	{
 		for (j = 0; j < TAM_MATX; j++)
@@ -30,53 +31,41 @@ void validaPos(int **mtz)
 	}
 }
 
-int typeToInt(char type)
+int typeToInt(char *type)
 {
-	switch (type)
-	{
-		case '3Az' :
-			return 1; 
-			break;
-		case '2Az' : 
-			return 2;
-			break;
-		case '1Az' :
-			return 3;
-			break;
-		case '2Vm' :
-			return 4;
-			break;
-		case '1Vm' :
-			return 5;
-			break;
-		case '3Am' :
-			return 6;
-			break;
-		case '1Am' :
-			return 7;
-			break;
-		case '2Vd' :
-			return 8;
-			break;
-		case '3Vd' :
-			return 9;
-			break;
-	}
+	if(strcmp(type, "3Az") == 0)
+		return 1;
+	if(strcmp(type, "2Az") == 0)
+		return 2;
+	if(strcmp(type, "1Az") == 0)
+		return 3;
+	if(strcmp(type, "2Vm") == 0)
+		return 4;
+	if(strcmp(type, "1Vm") == 0)
+		return 5;
+	if(strcmp(type, "3Am") == 0)
+		return 6;
+	if(strcmp(type, "1Am") == 0)
+		return 7;
+	if(strcmp(type, "2Vd") == 0)
+		return 8;
+	if(strcmp(type, "3Vd") == 0)
+		return 9;
 }
 
-bomb *criaMatriz()
+bomb **criaMatriz()
 {
 	int i;
 	bomb **mtz; 
-	mtz = malloc (TAM_MATX * sizeof (bomb *));
+	mtz = (bomb **) malloc (TAM_MATX * sizeof (bomb *));
 	for(i = 0; i <= TAM_MATX; i++)
 	{
 		mtz[i] = malloc (TAM_MATX * sizeof (bomb));
-		mtz[i] = 0;
+		mtz[i] = NULL;
 	}
 }
 
-void attMatriz(int lin, int col, boom type, int **mtz)
+void attMatriz(int lin, int col, bomb type, bomb **mtz)
 {
 	int i, j;
 
@@ -84,8 +73,7 @@ void attMatriz(int lin, int col, boom type, int **mtz)
 	{
 		for (j = 0; j < TAM_MATX; j++)
 		{
-			if(mtz[i][j] == 0)
-				mtz[i][j] = B;
+			//
 		}
 	}
 }
@@ -95,7 +83,7 @@ void readFile()
 	FILE *arq;
 	int pos[4], tam, i, j, aux, serie = 0;
 	char charType[3];
-	bomb B, *mtz = criaMatriz();
+	bomb B, **mtz = criaMatriz();
 	
 	if((arq = fopen("configuracoes.txt", "r")) == NULL) printf("ERRO\n");
 	else
@@ -121,8 +109,8 @@ void readFile()
 				atualizando a matriz a ser verificada
 				*/
 				
-				B->type = typeToInt(charType);
-				B->nSerie = serie;
+				B.type = typeToInt(charType);
+				B.nSerie = serie;
 				if(pos[0] == pos[2]) //horizontal
 				{
 					aux = pos[1];
