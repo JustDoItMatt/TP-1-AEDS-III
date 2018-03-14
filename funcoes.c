@@ -3,14 +3,17 @@
 2Az = 2
 1Az = 3
 
-2Vm = 4
-1Vm = 5
+3Vm = 4
+2Vm = 5
+1Vm = 6
 
-3Am = 6
-1Am = 7
+3Am = 7
+2Am = 8
+1Am = 9
 
-2Vd = 8
-3Vd = 9
+3Vd = 10
+2Vd = 11
+1Vd = 12
 */
 #include <stdio.h>
 #include <string.h>
@@ -51,9 +54,9 @@ int typeToInt(char *type)
 		return 8;
 	if(strcmp(type, "1Am") == 0)
 		return 9;
-	if(strcmp(type, "2Vd") == 0)
-		return 10;
 	if(strcmp(type, "3Vd") == 0)
+		return 10;
+	if(strcmp(type, "2Vd") == 0)
 		return 11;
 	if(strcmp(type, "1Vd") == 0)
 		return 12;
