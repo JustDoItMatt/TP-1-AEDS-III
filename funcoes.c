@@ -21,17 +21,26 @@
 #include "funcoes.h"
 #define TAM_MATX 6
 
-void validaPos(bomb **mtz)
+void validaPos(bomb **mtz,int explo)
 {
-	char ver;
-	int i, j;
-	for (i = 0; i < TAM_MATX; i++)
-	{
-		for (j = 0; j < TAM_MATX; j++)
-		{
-			//if(mtz[i][j])
+	int i,j;
+	for (i=0;i<TAM_MATX;i++){
+		for (j=0;j<TAM_MATX;j++){
+			if ((matriz[i][j]->type==matriz[i][j+1]->type) && (matriz[i][j]->nserie!=matriz[i][j+1]->nserie)){
+				explo++;
+			}
+			if ((matriz[i][j]->type==matriz[i][j-1]->type) && (matriz[i][j]->nserie!=matriz[i][j+1]->nserie)){
+				explo++;
+			}
+			if ((matriz[i+1][j]->type==matriz[i][j]->type)&&(matriz[i+1][j]->nserie!=matriz[i][j]->nserie)){
+				explo++;
+			}
+			if ((matriz[i-1][j]->type==matriz[i][j]->type)&&(matriz[i-1][j]->nserie!=matriz[i][j]->nserie)){
+				explo++;
+			}
 		}
 	}
+}
 }
 
 int typeToInt(char *type)
