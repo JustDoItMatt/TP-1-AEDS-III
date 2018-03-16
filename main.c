@@ -4,13 +4,13 @@
 #include "funcoes.h"
 #define TAM_MATX 6
 
-int main(char *compos, char *config)
+int main(int argc, char **argv)
 {
 	struct timeval comeco, fim;
 	gettimeofday(&comeco, NULL);
 	//código a ser testado
 
-
+	printf("%s\n", argv[1]);
 
 	gettimeofday(&fim, NULL);
 	//tempo em ms para execução do cód
