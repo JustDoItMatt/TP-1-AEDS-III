@@ -21,11 +21,36 @@
 #include "funcoes.h"
 #define TAM_MATX 6
 
-void validaPos(bomb **mtz,int explo)
+int validaPos(bomb **m)
 {
-	int i,j;
-	for (i=0;i<TAM_MATX;i++){
-		for (j=0;j<TAM_MATX;j++){
+	int boom, i, j;
+	
+	for (i = 0; i < TAM_MATX; i++){
+		for (j = 0; j < TAM_MATX; j++){
+			if(m[i][j]->nSerie != m[i][j+1])
+			{
+				if(m[i][j]->type == m[i][j+1]->type)
+				{
+					boom++;
+				}
+			}
+			if(m[i][j]->nSerie != m[i+1][j])
+			{
+				if(m[i][j]->type == m[i+1][j+1]->type)
+				{
+					boom++;
+				}
+			}
+		}
+	}
+	
+	if(boom > 0)
+		return 0;
+	else
+		return 1;
+}
+
+/*			
 			if ((matriz[i][j]->type==matriz[i][j+1]->type) && (matriz[i][j]->nserie!=matriz[i][j+1]->nserie)){
 				explo++;
 			}
@@ -38,10 +63,8 @@ void validaPos(bomb **mtz,int explo)
 			if ((matriz[i-1][j]->type==matriz[i][j]->type)&&(matriz[i-1][j]->nserie!=matriz[i][j]->nserie)){
 				explo++;
 			}
-		}
-	}
-}
-}
+			*/
+
 
 int typeToInt(char *type)
 {
@@ -100,7 +123,7 @@ void attMatriz(int lin, int col, bomb B, bomb **mtz)
 void readFile()
 {
 	FILE *arq;
-	int pos[4], tam, i, j, aux, serie = 0;
+	int val, pos[4], tam, i, j, aux, serie = 0;
 	char charType[3];
 	bomb B, **mtz = criaMatriz();
 	
@@ -150,7 +173,12 @@ void readFile()
 				serie++;
 			}
 			//testar a validade da configuração
-
+			val = validaPos(mtz);
+			if(val > 0)
+				printf("\n%s nao e valida.", key);
+				//imprimir resultado no arquivo
+			else
+				printf("\n%s  e valida.", key);
 		}
 	}
 	fclose(arq);
