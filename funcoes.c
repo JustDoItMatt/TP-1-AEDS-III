@@ -27,16 +27,16 @@ int validaPos(bomb **m)
 	
 	for (i = 0; i < TAM_MATX; i++){
 		for (j = 0; j < TAM_MATX; j++){
-			if(m[i][j]->nSerie != m[i][j+1])
+			if(m[i][j].nSerie != m[i][j+1].nSerie)
 			{
-				if(m[i][j]->type == m[i][j+1]->type)
+				if(m[i][j].type == m[i][j+1].type)
 				{
 					boom++;
 				}
 			}
-			if(m[i][j]->nSerie != m[i+1][j])
+			if(m[i][j].nSerie != m[i+1][j].nSerie)
 			{
-				if(m[i][j]->type == m[i+1][j+1]->type)
+				if(m[i][j].type == m[i+1][j+1].type)
 				{
 					boom++;
 				}
@@ -51,16 +51,16 @@ int validaPos(bomb **m)
 }
 
 /*			
-			if ((matriz[i][j]->type==matriz[i][j+1]->type) && (matriz[i][j]->nserie!=matriz[i][j+1]->nserie)){
+			if ((matriz[i][j].type==matriz[i][j+1].type) && (matriz[i][j].nserie!=matriz[i][j+1].nserie)){
 				explo++;
 			}
-			if ((matriz[i][j]->type==matriz[i][j-1]->type) && (matriz[i][j]->nserie!=matriz[i][j+1]->nserie)){
+			if ((matriz[i][j].type==matriz[i][j-1].type) && (matriz[i][j].nserie!=matriz[i][j+1].nserie)){
 				explo++;
 			}
-			if ((matriz[i+1][j]->type==matriz[i][j]->type)&&(matriz[i+1][j]->nserie!=matriz[i][j]->nserie)){
+			if ((matriz[i+1][j].type==matriz[i][j].type)&&(matriz[i+1][j].nserie!=matriz[i][j].nserie)){
 				explo++;
 			}
-			if ((matriz[i-1][j]->type==matriz[i][j]->type)&&(matriz[i-1][j]->nserie!=matriz[i][j]->nserie)){
+			if ((matriz[i-1][j].type==matriz[i][j].type)&&(matriz[i-1][j].nserie!=matriz[i][j].nserie)){
 				explo++;
 			}
 			*/
