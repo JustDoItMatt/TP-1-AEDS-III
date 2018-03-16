@@ -5,7 +5,7 @@ struct kitBoom{
 	int type, nSerie;
 };
 typedef struct kitBoom bomb;
-int (int **);
+int validaPos(bomb **);
 int typeToInt(char *);
 bomb **criaMatriz();
 void attMatriz(int , int , bomb , bomb **);
