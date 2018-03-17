@@ -1,20 +1,3 @@
-/*
-3Az = 1
-2Az = 2
-1Az = 3
-
-3Vm = 4
-2Vm = 5
-1Vm = 6
-
-3Am = 7
-2Am = 8
-1Am = 9
-
-3Vd = 10
-2Vd = 11
-1Vd = 12
-*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -49,22 +32,6 @@ int validaPos(bomb **m)
 	else
 		return 1;
 }
-
-/*			
-			if ((matriz[i][j].type==matriz[i][j+1].type) && (matriz[i][j].nserie!=matriz[i][j+1].nserie)){
-				explo++;
-			}
-			if ((matriz[i][j].type==matriz[i][j-1].type) && (matriz[i][j].nserie!=matriz[i][j+1].nserie)){
-				explo++;
-			}
-			if ((matriz[i+1][j].type==matriz[i][j].type)&&(matriz[i+1][j].nserie!=matriz[i][j].nserie)){
-				explo++;
-			}
-			if ((matriz[i-1][j].type==matriz[i][j].type)&&(matriz[i-1][j].nserie!=matriz[i][j].nserie)){
-				explo++;
-			}
-			*/
-
 
 int typeToInt(char *type)
 {
@@ -120,14 +87,14 @@ void attMatriz(int lin, int col, bomb B, bomb **mtz)
 	}
 }
 
-void readFile()
+void readFile(char *arquivo)
 {
 	FILE *arq;
 	int val, pos[4], tam, i, j, aux, serie = 0;
 	char charType[3];
 	bomb B, **mtz = criaMatriz();
 	
-	if((arq = fopen("configuracoes.txt", "r")) == NULL) printf("ERRO\n");
+	if((arq = fopen(arquivo, "r")) == NULL) printf("ERRO\n");
 	else
 	{
 		char buffer[] = "configuracao", key[13];
@@ -138,7 +105,7 @@ void readFile()
 			if(strncmp(key, buffer, 12) == 0)
 				continue;
 			else
-			{
+			{				
 				//recebendo os dados do arquivo
 				for(i = 1; i < 5; i++)
 				{
@@ -146,10 +113,10 @@ void readFile()
 				}
 				fscanf(arq, "%s", charType);
 				
-				/*
-				verificando a orientação da bomba, o tipo e convertendo para int o type recebido
-				atualizando a matriz a ser verificada
-				*/
+				
+				//verificando a orientação da bomba, o tipo e convertendo para int o type recebido
+				//atualizando a matriz a ser verificada
+				
 				
 				B.type = typeToInt(charType);
 				B.nSerie = serie;
@@ -158,7 +125,7 @@ void readFile()
 					aux = pos[1];
 					while(aux <= pos[3])
 					{
-						attMatriz(pos[0], aux, B, mtz);
+						//attMatriz(pos[0], aux, B, mtz);
 						aux++;
 					}
 				}else //vertical
@@ -166,12 +133,13 @@ void readFile()
 					aux = pos[0];
 					while(aux <= pos[2])
 					{
-						attMatriz(aux, pos[1], B, mtz);
+						//attMatriz(aux, pos[1], B, mtz);
 						aux++;
 					}
 				}
 				serie++;
 			}
+			/*
 			//testar a validade da configuração
 			val = validaPos(mtz);
 			if(val > 0)
@@ -179,7 +147,27 @@ void readFile()
 				//imprimir resultado no arquivo
 			else
 				printf("\n%s  e valida.", key);
+			*/
 		}
 	}
 	fclose(arq);
 }
+
+
+/*
+3Az = 1
+2Az = 2
+1Az = 3
+
+3Vm = 4
+2Vm = 5
+1Vm = 6
+
+3Am = 7
+2Am = 8
+1Am = 9
+
+3Vd = 10
+2Vd = 11
+1Vd = 12
+*/
