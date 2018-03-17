@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 	gettimeofday(&comeco, NULL);
 	//código a ser testado
 
-	printf("%s\n", argv[1]);
+	readFile(argv[1]);
 
 	gettimeofday(&fim, NULL);
 	//tempo em ms para execução do cód
