@@ -9,7 +9,7 @@ int validaPos(bomb **);
 int typeToInt(char *);
 bomb **criaMatriz();
 void attMatriz(int , int , bomb , bomb **);
-void readFile();
+void readFile(char *);
 
 #endif
 
