@@ -8,48 +8,38 @@ int validaPos(bomb **m)
 {
 	int c = 0, boom = 0, i, j,l=0,t,o,n;
 	
-	for (i = 0; i < TAM_MATX; i++){
-		for (j = 0; j < TAM_MATX; j++){
+	for (i = 0; i < TAM_MATX; i++)
+	{
+		for (j = 0; j < TAM_MATX; j++)
+		{
 			o = i+1;
 			if (o == 6)
 			{
 				if (m[i][j].nSerie != m[i][j+1].nSerie && m[i][j].type == m[i][j+1].type)
 				{
-				l++;
-				boom++;
-				c=m[i][j].nSerie;
-				t=m[i][j].type;
-				printf ("%d,%d\n",i,j);
-				printf("serie: %d\ntipo: %d\n",c,t);
-				printf("%d \n",boom);
+					l++;
+					boom++;
+					c = m[i][j].nSerie;
+					t = m[i][j].type;
 				}
-		if(boom > 0){
-			printf("%d \n",boom);
-			printf("eu sai\n");
-			return 0;
-		}
-		else
-			return 1;
+				if(boom > 0)
+					return 0;
+				else
+					return 1;
 			}
-			if ((m[i][j].nSerie != m[i+1][j].nSerie || m[i][j].nSerie != m[i][j+1].nSerie) && (m[i][j].type == m[i+1][j].type || m[i][j].type == m[i][j+1].type)) 
+			if ((m[i][j].nSerie != m[i+1][j].nSerie || m[i][j].nSerie != m[i][j+1].nSerie) && (m[i][j].type == m[i+1][j].type || m[i][j].type == m[i][j+1].type))
 			{
 				l++;
 				boom++;
-				c=m[i][j].nSerie;
-				t=m[i][j].type;
-				printf ("%d,%d\n",i,j);
-				printf("serie: %d\ntipo: %d\n",c,t);
-				printf("%d \n",boom);
+				c = m[i][j].nSerie;
+				t = m[i][j].type;
 			}
 		}
 	}
-	printf("eu sai\n");
-	if(boom > 0){
+	if(boom > 0)
 		return 0;
-	}
-	else{
+	else
 		return 1;
-	}
 }
 
 int typeToInt(char *type)
