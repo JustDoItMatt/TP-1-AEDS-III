@@ -6,21 +6,50 @@
 
 int validaPos(bomb **m)
 {
-	int c = 0, boom = 0, i, j;
+	int c = 0, boom = 0, i, j,l=0,t,o,n;
 	
 	for (i = 0; i < TAM_MATX; i++){
 		for (j = 0; j < TAM_MATX; j++){
-			if (m[i][j].nSerie != m[i+1][j].nSerie || m[i][j].nSerie != m[i][j+1].nSerie)
+			o = i+1;
+			if (o == 6)
 			{
-				printf("1 \n");
+				if (m[i][j].nSerie != m[i][j+1].nSerie && m[i][j].type == m[i][j+1].type)
+				{
+				l++;
+				boom++;
+				c=m[i][j].nSerie;
+				t=m[i][j].type;
+				printf ("%d,%d\n",i,j);
+				printf("serie: %d\ntipo: %d\n",c,t);
+				printf("%d \n",boom);
+				}
+		if(boom > 0){
+			printf("%d \n",boom);
+			printf("eu sai\n");
+			return 0;
+		}
+		else
+			return 1;
+			}
+			if ((m[i][j].nSerie != m[i+1][j].nSerie || m[i][j].nSerie != m[i][j+1].nSerie) && (m[i][j].type == m[i+1][j].type || m[i][j].type == m[i][j+1].type)) 
+			{
+				l++;
+				boom++;
+				c=m[i][j].nSerie;
+				t=m[i][j].type;
+				printf ("%d,%d\n",i,j);
+				printf("serie: %d\ntipo: %d\n",c,t);
+				printf("%d \n",boom);
 			}
 		}
 	}
-	printf("%d\n", c);
-	if(boom > 0)
+	printf("eu sai\n");
+	if(boom > 0){
 		return 0;
-	else
+	}
+	else{
 		return 1;
+	}
 }
 
 int typeToInt(char *type)
@@ -152,10 +181,10 @@ void readFile(char *arquivo)
 		//testar a validade da configuração
 		val = validaPos(&*m);
 		if(val != 0)
-			printf("\n%s nao e valida.", key);
+			printf("\n%s e valida.", key);
 			//imprimir resultado no arquivo
 		else
-			printf("\n%s  e valida.", key);
+			printf("\n%s  nao e valida.", key);
 	}
 }
 
