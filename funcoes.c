@@ -6,27 +6,17 @@
 
 int validaPos(bomb **m)
 {
-	int boom, i, j;
+	int c = 0, boom = 0, i, j;
 	
 	for (i = 0; i < TAM_MATX; i++){
 		for (j = 0; j < TAM_MATX; j++){
-			if(m[i][j].nSerie != m[i][j+1].nSerie)
+			if (m[i][j].nSerie != m[i+1][j].nSerie || m[i][j].nSerie != m[i][j+1].nSerie)
 			{
-				if(m[i][j].type == m[i][j+1].type)
-				{
-					boom++;
-				}
-			}
-			if(m[i][j].nSerie != m[i+1][j].nSerie)
-			{
-				if(m[i][j].type == m[i+1][j+1].type)
-				{
-					boom++;
-				}
+				printf("1 \n");
 			}
 		}
 	}
-	
+	printf("%d\n", c);
 	if(boom > 0)
 		return 0;
 	else
@@ -64,25 +54,43 @@ int typeToInt(char *type)
 bomb **criaMatriz()
 {
 	int i, j;
-	bomb **mtz;
 
-	mtz = (bomb **) malloc (TAM_MATX * sizeof(bomb *));
+	bomb **m;
+	m = (bomb **)malloc(TAM_MATX * sizeof(bomb *));
 	for (i = 0; i < TAM_MATX; i++)
 	{
-		mtz[i] = (bomb *) malloc(TAM_MATX * sizeof(bomb));
+		m[i] = (bomb *) malloc(TAM_MATX * sizeof(bomb));
 	}
+
+	printf("Alocado com sucesso\n");
+	return m;
 }
 
-void attMatriz(int lin, int col, bomb B, bomb **mtz)
+void showMtz(bomb **m)
 {
 	int i, j;
-
-	for (i = 0; i < TAM_MATX; i++)
+	for(i = 0; i < TAM_MATX; i++)
 	{
 		for (j = 0; j < TAM_MATX; j++)
 		{
-			if((lin == i && col == j) && mtz[i][j].type == 0)
-				mtz[i][j] = B;
+			printf(" %d ", m[i][j].type);
+		}
+		printf("\n");
+	}
+}
+
+void attMatriz(int linha, int coluna, bomb B, bomb **m)
+{
+	int i, j;
+	//printf("l: %d, c: %d\n", linha, coluna);
+	for(i = 0; i < TAM_MATX; i++)
+	{
+		for (j = 0; j < TAM_MATX; j++)
+		{
+			if (linha == i && coluna == j && m[i][j].type == 0)
+			{
+				m[i][j] = B;
+			}
 		}
 	}
 }
@@ -90,69 +98,66 @@ void attMatriz(int lin, int col, bomb B, bomb **mtz)
 void readFile(char *arquivo)
 {
 	FILE *arq;
-	int val, pos[4], tam, i, j, aux, serie = 0;
-	char charType[3];
-	bomb B, **mtz = criaMatriz();
+	int pos[4], val, i, j, aux, serie = 0;
+	char charType[3], buffer[] = "configuracao", key[13];
+	bomb B;
+	bomb **m = criaMatriz();
 	
-	if((arq = fopen(arquivo, "r")) == NULL) printf("ERRO\n");
+	if((arq = fopen(arquivo, "r")) == NULL)
+		printf("ERRO\n");
 	else
 	{
-		char buffer[] = "configuracao", key[13];
-		//fscanf(arq, "%s", key);
-
 		while(fgets(key, sizeof(key), arq) != NULL)
 		{
-			if(strncmp(key, buffer, 12) == 0)
+			if(strncmp(key, buffer,12) == 0)
 				continue;
 			else
-			{				
-				//recebendo os dados do arquivo
-				for(i = 1; i < 5; i++)
+			{
+				for (i = 0; i < 4; i++)
 				{
-					fscanf(arq, "%d", &pos[i-1]);
+					fscanf(arq, "%d", &pos[i]);
+					pos[i] -= 1;
 				}
+				//printf("\n");
 				fscanf(arq, "%s", charType);
-				
-				
-				//verificando a orientação da bomba, o tipo e convertendo para int o type recebido
-				//atualizando a matriz a ser verificada
-				
-				
+
+
 				B.type = typeToInt(charType);
 				B.nSerie = serie;
-				if(pos[0] == pos[2]) //horizontal
+
+				/*
+				pos[0] e pos[2] = linha
+				pos[1] e pos[3] = coluna
+				*/
+				if(pos[0] == pos[2])
 				{
 					aux = pos[1];
 					while(aux <= pos[3])
 					{
-						//attMatriz(pos[0], aux, B, mtz);
+						attMatriz(pos[0], aux, B, &*m);
 						aux++;
 					}
-				}else //vertical
+				}else
 				{
 					aux = pos[0];
 					while(aux <= pos[2])
 					{
-						//attMatriz(aux, pos[1], B, mtz);
+						attMatriz(aux, pos[1], B, &*m);
 						aux++;
 					}
 				}
-				serie++;
 			}
-			/*
-			//testar a validade da configuração
-			val = validaPos(mtz);
-			if(val > 0)
-				printf("\n%s nao e valida.", key);
-				//imprimir resultado no arquivo
-			else
-				printf("\n%s  e valida.", key);
-			*/
+			serie++;
 		}
+		//testar a validade da configuração
+		val = validaPos(&*m);
+		if(val != 0)
+			printf("\n%s nao e valida.", key);
+			//imprimir resultado no arquivo
+		else
+			printf("\n%s  e valida.", key);
 	}
-	fclose(arq);
 }
-
 
 /*
 3Az = 1
