@@ -6,32 +6,35 @@
 
 int validaPos(bomb **m)
 {
-	int c = 0, boom = 0, i, j,l=0,t,o,n;
+	int c = 0, boom = 0, i, j,l=0,t,o,n,k,a,b;
 	
 	for (i = 0; i < TAM_MATX; i++){
 		for (j = 0; j < TAM_MATX; j++){
 			o = i+1;
+			printf("asdsad%d\n",o);
 			if (o == 6)
 			{
-				if (m[i][j].nSerie != m[i][j+1].nSerie && m[i][j].type == m[i][j+1].type)
+				printf("eu sadsad\n");
+				for (k=0;k<6;k++){
+				if ((m[5][k].nSerie != m[5][k+1].nSerie) && (m[5][k].type == m[5][k+1].type))
 				{
 				l++;
 				boom++;
-				c=m[i][j].nSerie;
-				t=m[i][j].type;
+				a=m[5][k+1].nSerie;
+				b=m[5][k+1].type;
+				c=m[i][k].nSerie;
+				t=m[i][k].type;
 				printf ("%d,%d\n",i,j);
-				printf("serie: %d\ntipo: %d\n",c,t);
+				printf("serie: %d\ntipo: %d\nseriep: %d\ntipop: %d\n",c,t,a,b);
 				printf("%d \n",boom);
-				}
+				}}
 		if(boom > 0){
-			printf("%d \n",boom);
-			printf("eu sai\n");
 			return 0;
 		}
 		else
 			return 1;
 			}
-			if ((m[i][j].nSerie != m[i+1][j].nSerie || m[i][j].nSerie != m[i][j+1].nSerie) && (m[i][j].type == m[i+1][j].type || m[i][j].type == m[i][j+1].type)) 
+			if ((m[i][j].nSerie != m[i+1][j].nSerie) && (m[i][j].type == m[i+1][j].type)) 
 			{
 				l++;
 				boom++;
@@ -40,6 +43,16 @@ int validaPos(bomb **m)
 				printf ("%d,%d\n",i,j);
 				printf("serie: %d\ntipo: %d\n",c,t);
 				printf("%d \n",boom);
+			}
+			if (m[i][j].nSerie != m[i][j+1].nSerie && m[i][j].type == m[i][j+1].type){
+				l++;
+				boom++;
+				c=m[i][j].nSerie;
+				t=m[i][j].type;
+				printf ("%d,%d\n",i,j);
+				printf("serie: %d\ntipo: %d\n",c,t);
+				printf("%d \n",boom);
+
 			}
 		}
 	}
