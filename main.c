@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 	gettimeofday(&comeco, NULL);
 	//código a ser testado
 
-	readFile(argv[1]);
+	readFile(argv[1], argv[2]);
 	getrusage(RUSAGE_SELF,&r_usage);
 
 	gettimeofday(&fim, NULL);
@@ -21,7 +21,6 @@ int main(int argc, char **argv)
 	double t = (fim.tv_usec - comeco.tv_usec) / 100000.0;
 
 	printf("\n%.7f segundos\n", t);
-	printf("\nMemoria usada = %ld\n",r_usage.ru_maxrss)
-	//attMatriz();
+	printf("\nMemoria usada = %ld\n",r_usage.ru_maxrss);
 	return 0;
 }
