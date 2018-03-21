@@ -5,7 +5,7 @@
 #define TAM_MATX 6
 
 //função auxiliar para o qsort da STDLIB.H
-int cmpfunc (const void * a, const void * b) {
+int cmpfunc (const void * a, const void * b){
    return ( *(int*)a - *(int*)b );
 }
 
@@ -23,59 +23,26 @@ void freeMatriz(bomb **m)
 int verComp(int *vetInt, char *nomeArq)
 {
 	FILE *arq;
-	int *vetArq, i = 0, j = 1;
-	int qtd, nr, cont = 0;
-	char tipo[3];
+	
+	int qtd, nr, cont = 0, i = 0, j = 1;
+	char tipo[3], buffer[4];
 
-	printf("TESTE\n");
-	if((arq = fopen(nomeArq, "r")) == NULL)
+	if(!(arq = fopen(nomeArq, "r")))
 		printf("ERRO\n");
 	else
 	{
-		//escaneando quantas posições devem ser alocadas no vetor
 		while(!feof(arq))
 		{
-			fscanf(arq, "%d %s", &qtd, tipo);
+			fscanf(arq, "%d %s\n", &qtd, tipo);
 			i += qtd;
 		}
-		vetArq = (int *)malloc(i * sizeof(int));
-		i = 0;
-		// alocando as posições no vetor
-		while(!feof(arq))
-		{
-			//recebendo cada elemento da composição, transformando-o em um INT
-			//em seguida preenchendo o vetor
-			fscanf(arq, "%d %s", &qtd, tipo);
-			nr = typeToInt(tipo);
-			while(j <= qtd)
-			{
-				vetArq[i] = nr;
-				i++;
-			}
-			j = 1;
-		}
-		//comparando os dois vetores
-		//veerifica se o tamanho dos dois vetores são diferentes, caso sejam, algum deles possui mais elementos que o outro	
-		if(sizeof(vetInt)/sizeof(vetInt[0]) != sizeof(vetArq)/sizeof(vetArq[0]))
-			return 1;
-		else
-		{
-			//ordenando os vetores para facilitar a comparação
-			qsort(vetArq, sizeof(vetArq), sizeof(int), cmpfunc);
-			qsort(vetInt, sizeof(vetInt), sizeof(int), cmpfunc);
-			for (i = 0; i < sizeof(vetInt); i++)
-			{
-				if(vetInt[i] != vetArq[i])
-					cont++;
-			}
-			if (cont > 0)
-				return 1;
-			else
-				return 0;
-		}
+		// FUNCIONANDO ATÉ AQUI
 	}
 	fclose(arq);
-	free(vetArq);
+
+	int vet = (int *) malloc(18 * 4);
+	printf("%ld\n", sizeof(vet));
+	// free(vetArq);
 }
 
 int validoPos(bomb **m)
@@ -198,7 +165,7 @@ void readFile(char *arquivo, char *arquivo2)
 {
 	FILE *arq, *arq2;
 	char buffer[14], saida[14];
-	int tipo, i, aux, qtdConf = 0, serie = 0, pos[4], val, val1, val2, cont = 1;
+	int tipo, i, aux, qtdConf = 0, serie = 0, pos[4], val, val1, val2, cont = 0;
 	int *vet = (int *)malloc(sizeof(int));
 	bomb B;
 	bomb **m = criaMatriz();
@@ -216,9 +183,9 @@ void readFile(char *arquivo, char *arquivo2)
 				if (qtdConf != 0)
 				{
 					// testar validode
-					val1 = validoPos(&*m);
 					val2 = verComp(vet, arquivo2);
-					val = val1 + val2;
+					val = validoPos(&*m);
+					//val = val1;
 					if (val > 0)
 						fprintf(arq2,"%s nao-valido\n", saida);
 					else
@@ -227,11 +194,13 @@ void readFile(char *arquivo, char *arquivo2)
 				zeraMatriz(&*m);
 				qtdConf++;
 				strcpy(saida, buffer);
+				cont = 0;
 			}else
 			{
 				readFileAux(buffer, pos, &tipo);
 				B.type = tipo;
 				B.nSerie = serie;
+				cont++;
 
 				if(pos[0] == pos[2])
 				{
