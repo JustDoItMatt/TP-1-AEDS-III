@@ -6,7 +6,7 @@
 
 int main(int argc, char **argv)
 {
-	struct rusage r_inicio, r_fim;
+	struct rusage r_usage;
 	struct timeval comeco, fim;
 	gettimeofday(&comeco, NULL);
 	//código a ser testado
