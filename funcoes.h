@@ -25,7 +25,3 @@ void readFileAux(char *, int *, int *);
 void readFile(char *, char *);
 
 #endif
-
-/*
-gcc -c funcoes.c && gcc -c main.c && gcc funcoes.o main.o -o teste
-*/
