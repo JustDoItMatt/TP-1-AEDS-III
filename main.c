@@ -20,7 +20,7 @@ int main(int argc, char **argv)
 	//tempo em ms para execução do cód
 	double t = (fim.tv_usec - comeco.tv_usec) / 100000.0;
 
-	printf("\n%.7f segundos\n", t);
-	printf("\nMemoria usada = %ld\n",r_usage.ru_maxrss);
+	printf("Tempo de execucao: %.7f s\n", t);
+	printf("Memoria usada: %ld bytes\n",r_usage.ru_maxrss);
 	return 0;
 }
