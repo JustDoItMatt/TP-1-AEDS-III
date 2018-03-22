@@ -20,12 +20,12 @@ void freeMatriz(bomb **m)
 	free(m);
 }
 
-int verComp(int *vetInt, char *nomeArq)
+int verComp(int *vetArq, char *nomeArq)
 {
 	FILE *arq;
 	
-	int qtd, nr, cont = 0, i = 0, j = 1;
-	char tipo[3], buffer[4];
+	int *vet, qtd, nr, cont = 0, i = 0, j = 1, a = 0;
+	char tipo[3];
 
 	if(!(arq = fopen(nomeArq, "r")))
 		printf("ERRO\n");
@@ -36,18 +36,47 @@ int verComp(int *vetInt, char *nomeArq)
 			fscanf(arq, "%d %s\n", &qtd, tipo);
 			i += qtd;
 		}
-		// FUNCIONANDO ATÉ AQUI
 	}
 	fclose(arq);
 
-	int vet = (int *) malloc(18 * 4);
-	printf("%ld\n", sizeof(vet));
-	// free(vetArq);
+	vet = (int *) malloc(i*sizeof(int));
+
+	arq = fopen(nomeArq, "r");
+	while(!feof(arq))
+	{
+		fscanf(arq, "%d %s\n", &qtd, tipo);
+		nr = typeToInt(tipo);
+		while(j <= qtd)
+		{
+			vet[cont] = nr;
+			cont++;
+			j++;
+		}
+		j = 1;
+	}
+	// FUNCIONANDO ATÉ AQUI
+
+	qsort(vet, sizeof(vet), sizeof(int), cmpfunc);
+	qsort(vet, sizeof(vetArq), sizeof(int), cmpfunc);
+	if(sizeof(vet) == sizeof(vetArq))
+	{
+		for(i = 0; i < sizeof(vetArq); i++)
+		{
+			if(vetArq[i] != vet[i])
+				a++;
+		}
+		if(a == 0)
+			return 0;
+	}
+	else
+		return 1;
+	fclose(arq);
+	free(vet);
 }
 
 int validoPos(bomb **m)
 {
-	int c = 0, boom = 0, l=0, i, j, k;
+	int boom = 0, i, j, k;
 	
 	for (i = 0; i < TAM_MATX; i++)
 	{
@@ -107,7 +136,7 @@ int typeToInt(char *type)
 
 bomb **criaMatriz()
 {
-	int i, j;
+	int i;
 
 	bomb **m;
 	m = (bomb **)malloc(TAM_MATX * sizeof(bomb *));
@@ -165,8 +194,8 @@ void readFile(char *arquivo, char *arquivo2)
 {
 	FILE *arq, *arq2;
 	char buffer[14], saida[14];
-	int tipo, i, aux, qtdConf = 0, serie = 0, pos[4], val, val1, val2, cont = 0;
-	int *vet = (int *)malloc(sizeof(int));
+	int tipo, aux, qtdConf = 0, serie = 0, pos[4], val, val1, val2;
+	int *vetArq = (int *)malloc(sizeof(int));
 	bomb B;
 	bomb **m = criaMatriz();
 
@@ -183,8 +212,9 @@ void readFile(char *arquivo, char *arquivo2)
 				if (qtdConf != 0)
 				{
 					// testar validode
-					val2 = verComp(vet, arquivo2);
-					val = validoPos(&*m);
+					val2 = verComp(vetArq, arquivo2);
+					val1 = validoPos(&*m);
+					val = val1 + val2;
 					//val = val1;
 					if (val > 0)
 						fprintf(arq2,"%s nao-valido\n", saida);
@@ -194,13 +224,11 @@ void readFile(char *arquivo, char *arquivo2)
 				zeraMatriz(&*m);
 				qtdConf++;
 				strcpy(saida, buffer);
-				cont = 0;
 			}else
 			{
 				readFileAux(buffer, pos, &tipo);
 				B.type = tipo;
 				B.nSerie = serie;
-				cont++;
 
 				if(pos[0] == pos[2])
 				{
@@ -220,10 +248,13 @@ void readFile(char *arquivo, char *arquivo2)
 					}
 				}
 			}
+			
 			serie++;
 		}
-		val = validoPos(&*m);
-		//showMatriz(&*m);
+		val2 = verComp(vetArq, arquivo2);
+		val1 = validoPos(&*m);
+		val = val1 + val2;
+
 		if (val > 0)
 			fprintf(arq2,"%s nao-valido\n", saida);
 		else
