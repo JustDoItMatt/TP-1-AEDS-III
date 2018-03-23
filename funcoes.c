@@ -86,7 +86,7 @@ int verComp(int *vetArq, char *nomeArq)
 
 int validoPos(bomb **m)
 {
-	int boom = 0, i, j, k;
+	int boom = 0, i, j;
 
 	for (i = 0; i < TAM_MATX; i++)
 	{
@@ -94,11 +94,9 @@ int validoPos(bomb **m)
 		{
 			if (i == 5)
 			{
-				for(k = 0; k < TAM_MATX; k++)
-				{
-					if((m[5][k].nSerie != m[5][k+1].nSerie) && (m[5][k].type == m[5][k+1].type))
+					if((m[i][j].nSerie != m[i][j+1].nSerie) && (m[i][j].type == m[i][j+1].type))
 						boom++;
-				}
+				
 				if(boom > 0)
 					return 1;
 				else
